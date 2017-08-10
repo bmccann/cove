@@ -13,9 +13,28 @@ which takes in sequences of vectors pretrained with GloVe and outputs CoVe.
 Install [Docker](https://www.docker.com/get-docker).
 Install [nvidia-docker](https://github.com/NVIDIA/nvidia-docker) if you would like to use with with a GPU.
 
+### Run the CoVe server
+
+If you are looking to get the raw CoVe, GloVe, and Character n-gram  embeddings,
+you can run the CoVe server. Once the server is running, passing in a sequence 
+
+
 ```bash
-docker pull bmccann/cove   # pull the docker image
-docker run -it cove        # start a docker container
+nvidia-docker pull bmccann/cove                               # pull the docker image
+nvidia-docker run -d --name cove-server -p 8888:8000 \        # start the CoVe server on port 8888
+    -e "GPU=-1"                                               # specify GPU or -1 for CPU
+    -v `pwd`/.embeddings:/cove/.embeddings                    # mount point for embeddings cache 
+    -v `pwd`/.torch:/cove/cove/.torch \                       # mount point for MT-LSTM cache
+   bmccann/cove 
+nvidia-docker logs -f cove-server                             # wait until server is ready
+python cove.py -output_file hello_world.npy hello world       # get concatenation of CoVe, GloVe, Char
+```
+
+### Run the PyTorch example
+
+```bash
+nvidia-docker pull bmccann/cove          # pull the docker image
+nvidia-docker docker run -it cove        # start a docker container
 python /cove/test/example.py
 ```
 

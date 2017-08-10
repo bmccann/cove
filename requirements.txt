@@ -1,2 +1,4 @@
+sanic
+-e git+https://github.com/vzhong/embeddings.git#egg=embeddings
 -r https://raw.githubusercontent.com/pytorch/text/master/requirements.txt
 git+https://github.com/pytorch/text.git
