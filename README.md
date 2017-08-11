@@ -20,12 +20,12 @@ you can run the CoVe server. Once the server is running, passing in a sequence
 
 
 ```bash
-nvidia-docker pull bmccann/cove                               # pull the docker image
+nvidia-docker pull bmccann/cove-server                        # pull the docker image
 nvidia-docker run -d --name cove-server -p 8888:8000 \        # start the CoVe server on port 8888
     -e "GPU=-1"                                               # specify GPU or -1 for CPU
     -v `pwd`/.embeddings:/cove/.embeddings                    # mount point for embeddings cache 
     -v `pwd`/.torch:/cove/cove/.torch \                       # mount point for MT-LSTM cache
-   bmccann/cove 
+   bmccann/cove-server
 nvidia-docker logs -f cove-server                             # wait until server is ready
 python cove.py -output_file hello_world.npy hello world       # get concatenation of CoVe, GloVe, Char
 ```
